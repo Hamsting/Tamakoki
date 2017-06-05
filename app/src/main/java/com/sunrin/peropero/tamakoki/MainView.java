@@ -46,7 +46,7 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback
 
 	public void tick()
 	{
-		xx += 1;
+		xx += 2;
 	}
 
 	@Override
@@ -59,6 +59,9 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback
 			return;
 
 		Paint backPaint = new Paint();
+		backPaint.setColor(Color.rgb(0, 0, 0));
+		canvas.drawRect(0, 0,
+				screenConfig.screenWidth, screenConfig.screenHeight, backPaint);
 
 		backPaint.setColor(Color.rgb(255, 0, 0));
 		canvas.drawRect(screenConfig.getX(0), screenConfig.getY(xx),
