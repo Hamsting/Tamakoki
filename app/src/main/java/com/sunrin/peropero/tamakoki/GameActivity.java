@@ -7,7 +7,6 @@ import android.view.WindowManager;
 
 public class GameActivity extends AppCompatActivity
 {
-	MainView mainView;
 
 
 
@@ -19,9 +18,8 @@ public class GameActivity extends AppCompatActivity
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
-		int scnW = getWindowManager().getDefaultDisplay().getWidth();
-		int scnH = getWindowManager().getDefaultDisplay().getHeight();
-		mainView = (MainView)findViewById(R.id.main_view);
-		mainView.init(scnW, scnH, this);
+		AppManager appManager = new AppManager();
+		SplashScene startScene = (SplashScene)findViewById(R.id.start_scene);
+		appManager.init(this, startScene);
     }
 }

@@ -19,10 +19,10 @@ public class ScreenConfig
 		screenHeight = _screenHeight;
 	}
 
-	public void setSize(int _w, int _h)
+	public void setSize(int _vw, int _vh)
 	{
-		virtualWidth = _w;
-		virtualHeight = _h;
+		virtualWidth = _vw;
+		virtualHeight = _vh;
 	}
 
 	public int getX(int _x)

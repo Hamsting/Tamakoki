@@ -12,9 +12,10 @@ import android.view.SurfaceHolder;
 
 public class MainThread extends Thread
 {
-	private final float TARGET_FPS = 60.0f;
+	private final float TARGET_FPS = 30.0f;
+
 	private SurfaceHolder surfaceHolder;
-	private MainView mainView;
+	private IScene scene;
 	private boolean running = false;
 	private long lastRealTime;
 	private long fixedElapsedTimeLong;
@@ -24,10 +25,11 @@ public class MainThread extends Thread
 
 
 
-	public MainThread(SurfaceHolder _surfaceHolder, MainView _mainView)
+	public MainThread(SurfaceHolder _surfaceHolder, IScene _scene)
 	{
 		surfaceHolder = _surfaceHolder;
-		mainView = _mainView;
+		scene = _scene;
+
 		lastRealTime = SystemClock.elapsedRealtime();
 		fixedElapsedTime = 1.0f / TARGET_FPS;
 		fixedElapsedTimeLong = (long)(fixedElapsedTime * 1000.0f);
@@ -60,10 +62,12 @@ public class MainThread extends Thread
 					{
 						try
 						{
-							long elapsedTimeLong = SystemClock.elapsedRealtime() - lastRealTime;
+							long currentRealTime = SystemClock.elapsedRealtime();
+							long elapsedTimeLong = currentRealTime - lastRealTime;
 							elapsedTime = elapsedTimeLong / 1000.0f;
-							mainView.onDraw(c);
-							Thread.sleep(fixedElapsedTimeLong);
+							lastRealTime = currentRealTime;
+							scene.onDraw(c);
+							Thread.sleep(2);
 						}
 						catch (Exception ex)
 						{
@@ -82,11 +86,7 @@ public class MainThread extends Thread
 		{
 			Log.e("MainThread", e.toString());
 		}
-
-		// super.run();
 	}
-
-
 }
 
 

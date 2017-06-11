@@ -1,29 +1,38 @@
 package com.sunrin.peropero.tamakoki;
-
+/*
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.*;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
+*/
 /**
  * Created by Hamsting on 2017-06-05.
  */
 
-public class MainView extends SurfaceView implements SurfaceHolder.Callback
+public class MainView // extends SurfaceView implements SurfaceHolder.Callback
 {
-	private GameActivity gameActivity;
+	/*
 	MainThread mainThread;
 	Handler handler;
 	Context mainContext;
 	ScreenConfig screenConfig;
 	boolean drawCls = false;
+
+	private GameActivity gameActivity;
 	private int xx = 0;
+	private Paint paint;
+	private Bitmap bmpHams;
+	private Rect rectHams;
 
 
 
@@ -31,6 +40,8 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback
 	{
 		super(r, a);
 		getHolder().addCallback(this);
+		getHolder().setFormat(0x00000004);
+
 		mainThread = new MainThread(getHolder(), this);
 		setFocusable(true);
 		mainContext = r;
@@ -42,38 +53,57 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback
 		screenConfig = new ScreenConfig(_w, _h);
 		screenConfig.setSize(1080, 1920);
 		drawCls = true;
+		paint = new Paint();
+
+
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inScaled = false;
+		options.inPreferredConfig = Bitmap.Config.RGB_565;
+
+		bmpHams = BitmapFactory.decodeResource(getResources(), R.drawable.img_knobs, options);
+		rectHams = new Rect(0, screenConfig.getY(50), screenConfig.getX(278), screenConfig.getY(337 + 50));
 	}
 
-	public void tick()
+	public void tick(float eTime)
 	{
-		xx += 2;
+		xx += (int)(1920.0f * 0.2f * eTime);
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas)
 	{
 		float eTime = mainThread.elapsedTime;
-		tick();
+		tick(eTime);
 
 		if (!drawCls)
 			return;
 
-		Paint backPaint = new Paint();
-		backPaint.setColor(Color.rgb(0, 0, 0));
-		canvas.drawRect(0, 0,
-				screenConfig.screenWidth, screenConfig.screenHeight, backPaint);
+		clearCanvas(canvas);
 
-		backPaint.setColor(Color.rgb(255, 0, 0));
-		canvas.drawRect(screenConfig.getX(0), screenConfig.getY(xx),
-						screenConfig.getX(200), screenConfig.getY(200 + xx), backPaint);
+		canvas.drawBitmap(bmpHams, null, rectHams, null);
+		canvas.drawBitmap(bmpHams, null, rectHams, null);
+		canvas.drawBitmap(bmpHams, null, rectHams, null);
+		canvas.drawBitmap(bmpHams, null, rectHams, null);
+		canvas.drawBitmap(bmpHams, null, rectHams, null);
+		canvas.drawBitmap(bmpHams, null, rectHams, null);
+		canvas.drawBitmap(bmpHams, null, rectHams, null);
+		canvas.drawBitmap(bmpHams, null, rectHams, null);
+		canvas.drawBitmap(bmpHams, null, rectHams, null);
+		canvas.drawBitmap(bmpHams, null, rectHams, null);
+		canvas.drawBitmap(bmpHams, null, rectHams, null);
 
-		backPaint.setColor(Color.rgb(0, 255, 0));
-		canvas.drawRect(screenConfig.getX(900), screenConfig.getY(400),
-				screenConfig.getX(1100), screenConfig.getY(600), backPaint);
+		String fps = Float.toString(1.0f / eTime);
+		paint.setColor(Color.rgb(255, 255, 255));
+		canvas.drawText("FPS : " + fps + ", Elapsed : " + eTime, screenConfig.getX(0), screenConfig.getY(50), paint);
+		canvas.drawText("Bmp W : " + bmpHams.getWidth() + ", Bmp H : " + bmpHams.getHeight(), screenConfig.getX(0), screenConfig.getY(60), paint);
 
-		backPaint.setColor(Color.rgb(0, 0, 255));
-		canvas.drawRect(screenConfig.getX(1800), screenConfig.getY(800),
-				screenConfig.getX(2000), screenConfig.getY(1000), backPaint);
+		super.onDraw(canvas);
+	}
+
+	private void clearCanvas(Canvas _canvas)
+	{
+		paint.setColor(Color.rgb(0, 0, 0));
+		_canvas.drawRect(0, 0, screenConfig.screenWidth, screenConfig.screenHeight, paint);
 	}
 
 	@Override
@@ -128,6 +158,7 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback
 			}
 		}
 	}
+	*/
 }
 
 
