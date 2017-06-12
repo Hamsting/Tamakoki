@@ -39,6 +39,7 @@ public class IScene extends SurfaceView implements SurfaceHolder.Callback
 		super(r, a);
 		getHolder().addCallback(this);
 		getHolder().setFormat(0x00000004);
+		getHolder().setFixedSize(720, 1280);
 		setFocusable(true);
 		mainContext = r;
 		res = getResources();
@@ -48,7 +49,7 @@ public class IScene extends SurfaceView implements SurfaceHolder.Callback
 	{
 		mainThread = AppManager.instance.mainThread;
 		screenConfig = new ScreenConfig(_sw, _sh);
-		screenConfig.setSize(1080, 1920);
+		screenConfig.setSize(720, 1280);
 		paint = new Paint();
 		node = new ArrayList<>();
 	}
@@ -70,14 +71,11 @@ public class IScene extends SurfaceView implements SurfaceHolder.Callback
 
 		clearCanvas(canvas);
 
-		String fps = Float.toString(1.0f / eTime);
-		paint.setColor(Color.rgb(255, 255, 255));
-		canvas.drawText("FPS : " + fps + ", Elapsed : " + eTime, screenConfig.getX(0), screenConfig.getY(50), paint);
-
+		/*
 		for (IObject o : node)
 			o.draw(canvas);
-
-		super.onDraw(canvas);
+		*/
+		// super.onDraw(canvas);
 	}
 
 	private void clearCanvas(Canvas _canvas)

@@ -30,6 +30,6 @@ public class SceneManager
 	public void startScene(IScene _scene)
 	{
 		currentScene = _scene;
-		_scene.init(screenWidth, screenHeight);
+		_scene.init(720, 1280);
 	}
 }

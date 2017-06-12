@@ -29,6 +29,7 @@ public class MainThread extends Thread
 	{
 		surfaceHolder = _surfaceHolder;
 		scene = _scene;
+		setPriority(MIN_PRIORITY);
 
 		lastRealTime = SystemClock.elapsedRealtime();
 		fixedElapsedTime = 1.0f / TARGET_FPS;
@@ -67,7 +68,6 @@ public class MainThread extends Thread
 							elapsedTime = elapsedTimeLong / 1000.0f;
 							lastRealTime = currentRealTime;
 							scene.onDraw(c);
-							Thread.sleep(2);
 						}
 						catch (Exception ex)
 						{
