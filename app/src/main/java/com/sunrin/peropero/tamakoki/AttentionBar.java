@@ -15,7 +15,7 @@ public class AttentionBar extends IObject
 	private static final int BARBG_X = 120;
 	private static final int BARBG_Y = 20;
 
-	private int max = 10000;
+	private int max = 100;
 	private int current = 0;
 	private float percent;
 	private Bitmap bmpBg;
@@ -41,8 +41,6 @@ public class AttentionBar extends IObject
 	{
 		super.tick(_eTime);
 		percent = (float)current / max;
-		if (current < max)
-			++current;
 	}
 
 	@Override
@@ -70,5 +68,15 @@ public class AttentionBar extends IObject
 	public void setCurrent(int _current)
 	{
 		current = _current;
+	}
+
+	public void addCurrent(int _add)
+	{
+		current += _add;
+		if (current >= max)
+		{
+			current -= max;
+			max  = (int)(max * 1.2f);
+		}
 	}
 }

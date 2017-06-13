@@ -7,6 +7,8 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.TouchDelegate;
 
 /**
  * Created by Hamsting on 2017-06-09.
@@ -67,5 +69,20 @@ public class MainScene extends IScene
 		canvas.drawBitmap(bmpKawaii, null, rect, null);
 
 		abar.draw(canvas);
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event)
+	{
+		if (event.getAction() == MotionEvent.ACTION_DOWN)
+		{
+			ScreenConfig s = screenConfig;
+			Point pos = new Point((int) event.getX(), (int) event.getY());
+			Rect area = new Rect(s.getX(200), s.getY(1280 - 700),
+					s.getX(720 - 200), s.getY(1280 - 300));
+			if (area.contains(pos.x, pos.y))
+				abar.addCurrent(10);
+		}
+		return super.onTouchEvent(event);
 	}
 }
