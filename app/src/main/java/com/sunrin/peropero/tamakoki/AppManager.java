@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 /**
- * Created by ww on 2017-06-09.
+ * Created by Hamsting on 2017-06-09.
  */
 
 public class AppManager

@@ -18,7 +18,7 @@ import android.view.SurfaceView;
 import java.util.ArrayList;
 
 /**
- * Created by ww on 2017-06-09.
+ * Created by Hamsting on 2017-06-09.
  */
 
 public class IScene extends SurfaceView implements SurfaceHolder.Callback
@@ -70,12 +70,6 @@ public class IScene extends SurfaceView implements SurfaceHolder.Callback
 			return;
 
 		clearCanvas(canvas);
-
-		/*
-		for (IObject o : node)
-			o.draw(canvas);
-		*/
-		// super.onDraw(canvas);
 	}
 
 	private void clearCanvas(Canvas _canvas)

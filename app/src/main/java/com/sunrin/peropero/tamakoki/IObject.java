@@ -4,11 +4,10 @@ import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.Point;
 import java.util.ArrayList;
 
 /**
- * Created by ww on 2017-06-09.
+ * Created by Hamsting on 2017-06-09.
  */
 
 public class IObject

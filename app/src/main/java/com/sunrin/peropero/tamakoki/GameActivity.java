@@ -5,8 +5,13 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+/**
+ * Created by Hamsting on 2017-06-09.
+ */
+
 public class GameActivity extends AppCompatActivity
 {
+	public static final boolean SHOW_FPS = true;
 
 
 
@@ -16,10 +21,11 @@ public class GameActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_main);
 
 		AppManager appManager = new AppManager();
-		SplashScene startScene = (SplashScene)findViewById(R.id.start_scene);
+		MainScene startScene = (MainScene)findViewById(R.id.start_scene);
 		appManager.init(this, startScene);
     }
 }

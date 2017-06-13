@@ -1,7 +1,7 @@
 package com.sunrin.peropero.tamakoki;
 
 /**
- * Created by ww on 2017-06-09.
+ * Created by Hamsting on 2017-06-09.
  */
 
 public class SceneManager

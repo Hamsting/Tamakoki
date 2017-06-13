@@ -1,13 +1,14 @@
 package com.sunrin.peropero.tamakoki;
 
-import android.content.IntentFilter;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
 /**
- * Created by Sunrin on 2017-06-05.
+ * Created by Hamsting on 2017-06-05.
  */
 
 public class MainThread extends Thread
@@ -68,6 +69,8 @@ public class MainThread extends Thread
 							elapsedTime = elapsedTimeLong / 1000.0f;
 							lastRealTime = currentRealTime;
 							scene.onDraw(c);
+							if (GameActivity.SHOW_FPS)
+								showFps(c);
 						}
 						catch (Exception ex)
 						{
@@ -86,6 +89,17 @@ public class MainThread extends Thread
 		{
 			Log.e("MainThread", e.toString());
 		}
+	}
+
+	private void showFps(Canvas _canvas)
+	{
+		String fps = Float.toString(1.0f / elapsedTime);
+		ScreenConfig screenConfig = scene.screenConfig;
+		Paint paint = scene.paint;
+		paint.setColor(Color.rgb(0, 0, 0));
+		_canvas.drawRect(screenConfig.getX(0), screenConfig.getY(0), screenConfig.getX(720 / 4), screenConfig.getY(10), paint);		paint.setColor(Color.rgb(0, 0, 0));
+		paint.setColor(Color.rgb(255, 255, 255));
+		_canvas.drawText("FPS : " + fps + ", Elapsed : " + elapsedTime, screenConfig.getX(0), screenConfig.getY(10), paint);
 	}
 }
 
