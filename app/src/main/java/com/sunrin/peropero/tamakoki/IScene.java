@@ -40,10 +40,10 @@ public class IScene extends SurfaceView implements SurfaceHolder.Callback
 		res = getResources();
 	}
 
-	public void init(int _sw, int _sh)
+	public void init()
 	{
 		mainThread = AppManager.instance.mainThread;
-		screenConfig = new ScreenConfig(_sw, _sh);
+		screenConfig = new ScreenConfig();
 		screenConfig.setSize(720, 1280);
 		paint = new Paint();
 		node = new ArrayList<>();

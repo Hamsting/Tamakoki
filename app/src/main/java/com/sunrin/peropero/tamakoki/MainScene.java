@@ -10,6 +10,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.TouchDelegate;
 
+import java.util.ArrayList;
+
 /**
  * Created by Hamsting on 2017-06-09.
  */
@@ -24,6 +26,7 @@ public class MainScene extends IScene
 	private Bitmap bmpBg;
 	private Bitmap bmpKawaii;
 	private Point kawaiiSize;
+	private ArrayList<Heart> hearts;
 
 
 
@@ -33,13 +36,14 @@ public class MainScene extends IScene
 	}
 
 	@Override
-	public void init(int _sw, int _sh)
+	public void init()
 	{
-		super.init(_sw, _sh);
+		super.init();
 		tama = new Tama();
 		addNode(tama);
 		abar = new AttentionBar();
 		addNode(abar);
+		hearts = new ArrayList<>();
 
 		BitmapFactory.Options ops = AppManager.instance.bmpOptions;
 		bmpBg = BitmapFactory.decodeResource(res, R.drawable.img_bg, ops);
@@ -77,12 +81,20 @@ public class MainScene extends IScene
 		if (event.getAction() == MotionEvent.ACTION_DOWN)
 		{
 			ScreenConfig s = screenConfig;
-			Point pos = new Point((int) event.getX(), (int) event.getY());
-			Rect area = new Rect(s.getX(200), s.getY(1280 - 700),
-					s.getX(720 - 200), s.getY(1280 - 300));
+			Point pos = new Point(s.screenToVirtualX((int)event.getX()),
+								  s.screenToVirtualY((int)event.getY()));
+			Rect area = new Rect(s.getX(100), s.getY(1280 - 550),
+					s.getX(720 - 100), s.getY(1280 - 200));
 			if (area.contains(pos.x, pos.y))
 				abar.addCurrent(10);
 		}
 		return super.onTouchEvent(event);
+	}
+
+	private void createRandomHeart()
+	{
+		Heart h = new Heart(1, 1);
+		addNode(h);
+		hearts.add(h);
 	}
 }
