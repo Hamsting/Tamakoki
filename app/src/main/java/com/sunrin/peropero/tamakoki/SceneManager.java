@@ -28,4 +28,9 @@ public class SceneManager
 		currentScene = _scene;
 		_scene.init();
 	}
+
+	public void changeScene(IScene _scene)
+	{
+		AppManager.instance.mainThread.changeScene(_scene);
+	}
 }

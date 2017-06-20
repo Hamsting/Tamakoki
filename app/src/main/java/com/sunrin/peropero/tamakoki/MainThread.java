@@ -13,10 +13,11 @@ import android.view.SurfaceHolder;
 
 public class MainThread extends Thread
 {
-	private final float TARGET_FPS = 30.0f;
+	private final float TARGET_FPS = 60.0f;
 
 	private SurfaceHolder surfaceHolder;
 	private IScene scene;
+	private IScene nextScene;
 	private boolean running = false;
 	private long lastRealTime;
 	private long fixedElapsedTimeLong;
@@ -30,6 +31,7 @@ public class MainThread extends Thread
 	{
 		surfaceHolder = _surfaceHolder;
 		scene = _scene;
+		nextScene = null;
 		setPriority(MIN_PRIORITY);
 
 		lastRealTime = SystemClock.elapsedRealtime();
@@ -57,6 +59,15 @@ public class MainThread extends Thread
 			while (running)
 			{
 				c = null;
+				if (nextScene != null)
+				{
+					scene = nextScene;
+					nextScene = null;
+					SceneManager.instance.currentScene = scene;
+					surfaceHolder = scene.getHolder();
+					scene.init();
+					Log.e("MainThread_0", "Changed.");
+				}
 				try
 				{
 					c = surfaceHolder.lockCanvas(null);
@@ -74,7 +85,8 @@ public class MainThread extends Thread
 						}
 						catch (Exception ex)
 						{
-							Log.e("MainThread", ex.toString());
+							Log.e("MainThread_2", ex.toString());
+							Log.e("MainThread_2", scene.toString());
 						}
 					}
 				}
@@ -87,7 +99,7 @@ public class MainThread extends Thread
 		}
 		catch (Exception e)
 		{
-			Log.e("MainThread", e.toString());
+			Log.e("MainThread_1", e.toString());
 		}
 	}
 
@@ -100,6 +112,11 @@ public class MainThread extends Thread
 		_canvas.drawRect(screenConfig.getX(0), screenConfig.getY(0), screenConfig.getX(720 / 4), screenConfig.getY(10), paint);		paint.setColor(Color.rgb(0, 0, 0));
 		paint.setColor(Color.rgb(255, 255, 255));
 		_canvas.drawText("FPS : " + fps + ", Elapsed : " + elapsedTime, screenConfig.getX(0), screenConfig.getY(10), paint);
+	}
+
+	public void changeScene(IScene _scene)
+	{
+		nextScene = _scene;
 	}
 }
 

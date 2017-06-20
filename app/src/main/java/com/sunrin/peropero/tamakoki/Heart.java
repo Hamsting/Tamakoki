@@ -14,6 +14,9 @@ public class Heart extends IObject
 {
 	private static final int DEST_X = 70;
 	private static final int DEST_Y = 45;
+	private static final float ANIMTIMER_1 = 0.2f;
+	private static final float ANIMTIMER_2 = 0.25f;
+	private static final float ANIMTIMER_3 = 0.75f;
 
 	private static Bitmap bmpHeart;
 
@@ -48,7 +51,7 @@ public class Heart extends IObject
 		super.tick(_eTime);
 		timer += _eTime;
 
-		animate();
+		animation();
 	}
 
 	@Override
@@ -64,37 +67,37 @@ public class Heart extends IObject
 		_canvas.drawBitmap(bmpHeart, null, rec, null);
 	}
 
-	private void animate()
+	private void animation()
 	{
 		if (animState == 0)
 		{
-			scale = 1.0f + 1.0f * (timer / 0.3f);
-			if (timer >= 0.3f)
+			scale = 1.0f + 1.0f * (timer / ANIMTIMER_1);
+			if (timer >= ANIMTIMER_1)
 			{
 				++animState;
-				timer -= 0.3f;
+				timer -= ANIMTIMER_1;
 			}
 		}
 		else if (animState == 1)
 		{
-			scale = 2.0f - 1.0f * (timer / 0.3f);
-			if (timer >= 0.3f)
+			scale = 2.0f - 1.0f * (timer / ANIMTIMER_2);
+			if (timer >= ANIMTIMER_2)
 			{
 				++animState;
-				timer -= 0.3f;
+				timer -= ANIMTIMER_2;
 			}
 		}
 		else if (animState == 2)
 		{
-			double ease = 1.0f - Math.cos((double)(90.0f * (timer / 1.0f)));
+			double ease = 1.0f - Math.cos(90.0f * (timer / ANIMTIMER_3) * Math.PI / 180.f);
 			int easedX = (int)(distance.x * ease);
 			int easedY = (int)(distance.y * ease);
 			currentPos.set(originalPos.x - easedX, originalPos.y - easedY);
-			scale = 1.0f - 0.5f * (timer / 1.0f);
-			if (timer >= 1.0f)
+			scale = 1.0f - 0.75f * (timer / ANIMTIMER_3);
+			if (timer >= ANIMTIMER_3)
 			{
 				++animState;
-				timer -= 1.0f;
+				timer -= ANIMTIMER_3;
 			}
 		}
 		else if (animState == 3)
@@ -106,6 +109,7 @@ public class Heart extends IObject
 
 	private void destroy()
 	{
-		parent.removeNode(this);
+		MainScene scene = (MainScene)SceneManager.instance.currentScene;
+		scene.removeHeart(this);
 	}
 }

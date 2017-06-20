@@ -1,8 +1,10 @@
 package com.sunrin.peropero.tamakoki;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
@@ -18,6 +20,8 @@ public class AppManager
 	public GameActivity gameActivity;
 	public BitmapFactory.Options bmpOptions;
 	public Resources res;
+	public Context context;
+	public AttributeSet attributeSet;
 
 
 
