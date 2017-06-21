@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.TouchDelegate;
 
@@ -73,6 +74,9 @@ public class MainScene extends IScene
 		canvas.drawBitmap(bmpKawaii, null, rect, null);
 
 		abar.draw(canvas);
+
+		for (Heart h : hearts)
+			h.draw(canvas);
 	}
 
 	@Override
@@ -83,18 +87,30 @@ public class MainScene extends IScene
 			ScreenConfig s = screenConfig;
 			Point pos = new Point(s.screenToVirtualX((int)event.getX()),
 								  s.screenToVirtualY((int)event.getY()));
-			Rect area = new Rect(s.getX(100), s.getY(1280 - 550),
+			Rect area = new Rect(s.getX(100), s.getY(1280 - 850),
 					s.getX(720 - 100), s.getY(1280 - 200));
 			if (area.contains(pos.x, pos.y))
+			{
 				abar.addCurrent(10);
+				createRandomHeart();
+			}
 		}
 		return super.onTouchEvent(event);
 	}
 
 	private void createRandomHeart()
 	{
-		Heart h = new Heart(1, 1);
+		int posx = (int)(Math.random() * 520) + 100;
+		int posy = 1080 - (int)(Math.random() * 650);
+		Heart h = new Heart(posx, posy);
 		addNode(h);
 		hearts.add(h);
+	}
+
+	public void removeHeart(Heart _h)
+	{
+		hearts.remove(_h);
+		removeNode(_h);
+		_h = null;
 	}
 }

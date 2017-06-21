@@ -18,14 +18,15 @@ public class GameActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+		AppManager appManager = new AppManager();
+
         super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_main);
 
-		AppManager appManager = new AppManager();
-		MainScene startScene = (MainScene)findViewById(R.id.start_scene);
+		SplashScene startScene = (SplashScene)findViewById(R.id.start_scene);
 		appManager.init(this, startScene);
     }
 }
