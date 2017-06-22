@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.TouchDelegate;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by Hamsting on 2017-06-09.
@@ -21,6 +22,10 @@ public class MainScene extends IScene
 {
 	private static final int KAWAII_X = 20;
 	private static final int KAWAII_Y = 20;
+
+	public int attantionDamage;
+	public float bonusPercent;
+	public int bonusPoint;
 
 	private Tama tama;
 	private AttentionBar abar;
@@ -50,6 +55,16 @@ public class MainScene extends IScene
 		bmpBg = BitmapFactory.decodeResource(res, R.drawable.img_bg, ops);
 		bmpKawaii = BitmapFactory.decodeResource(res, R.drawable.img_kawaii, ops);
 		kawaiiSize = new Point(bmpKawaii.getWidth(), bmpKawaii.getHeight());
+
+		attantionDamage = 10;
+		bonusPercent = 0.02f;
+		bonusPoint = 2;
+
+		int[] data = AppManager.instance.loadData();
+		abar.level = data[0];
+		abar.point = data[1];
+		abar.currentAttention = data[2];
+		abar.maxAttention = data[3];
 	}
 
 	@Override
@@ -75,8 +90,18 @@ public class MainScene extends IScene
 
 		abar.draw(canvas);
 
-		for (Heart h : hearts)
+		Iterator<Heart> iter = hearts.iterator();
+		while (iter.hasNext())
+		{
+			Heart h = iter.next();
+			if (h == null)
+				continue;
 			h.draw(canvas);
+			if (h.remove)
+				iter.remove();
+			if (!iter.hasNext())
+				break;
+		}
 	}
 
 	@Override
@@ -87,22 +112,22 @@ public class MainScene extends IScene
 			ScreenConfig s = screenConfig;
 			Point pos = new Point(s.screenToVirtualX((int)event.getX()),
 								  s.screenToVirtualY((int)event.getY()));
-			Rect area = new Rect(s.getX(100), s.getY(1280 - 850),
-					s.getX(720 - 100), s.getY(1280 - 200));
+			Rect area = new Rect(s.getX(100), s.getY(1280 - 760),
+					s.getX(720 - 100), s.getY(1280 - 130));
 			if (area.contains(pos.x, pos.y))
 			{
-				abar.addCurrent(10);
-				createRandomHeart();
+				boolean bonus = abar.addAttention(attantionDamage);
+				createRandomHeart(bonus);
 			}
 		}
 		return super.onTouchEvent(event);
 	}
 
-	private void createRandomHeart()
+	private void createRandomHeart(boolean _bonus)
 	{
 		int posx = (int)(Math.random() * 520) + 100;
 		int posy = 1080 - (int)(Math.random() * 650);
-		Heart h = new Heart(posx, posy);
+		Heart h = new Heart(posx, posy, _bonus);
 		addNode(h);
 		hearts.add(h);
 	}
@@ -110,7 +135,12 @@ public class MainScene extends IScene
 	public void removeHeart(Heart _h)
 	{
 		hearts.remove(_h);
-		removeNode(_h);
+		_h.setRemove();
 		_h = null;
+	}
+
+	public void saveData()
+	{
+		AppManager.instance.saveData(abar.level, abar.point, abar.currentAttention, abar.maxAttention);
 	}
 }

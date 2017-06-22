@@ -6,11 +6,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by Hamsting on 2017-06-09.
@@ -19,6 +21,8 @@ import java.util.ArrayList;
 public class IScene extends SurfaceView implements SurfaceHolder.Callback
 {
 	public ArrayList<IObject> node;
+
+
 
 	protected Resources res;
 	protected MainThread mainThread;
@@ -32,12 +36,14 @@ public class IScene extends SurfaceView implements SurfaceHolder.Callback
 	public IScene(Context r, AttributeSet a)
 	{
 		super(r, a);
+		setVisibility(INVISIBLE);
 		getHolder().addCallback(this);
 		getHolder().setFormat(0x00000004);
 		getHolder().setFixedSize(720, 1280);
 		setFocusable(true);
 		mainContext = r;
 		res = getResources();
+		Log.e("IScene", "IScene : " + this.getClass().toString());
 	}
 
 	public void init()
@@ -51,8 +57,18 @@ public class IScene extends SurfaceView implements SurfaceHolder.Callback
 
 	public void tick(float _eTime)
 	{
-		for (IObject o : node)
+		Iterator<IObject> iter = node.iterator();
+		while (iter.hasNext())
+		{
+			IObject o = iter.next();
+			if (o == null)
+				continue;
 			o.tick(_eTime);
+			if (o.remove)
+				iter.remove();
+			if (!iter.hasNext())
+				break;
+		}
 	}
 
 	@Override

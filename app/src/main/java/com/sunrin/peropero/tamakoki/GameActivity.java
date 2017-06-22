@@ -12,7 +12,8 @@ import android.view.WindowManager;
 public class GameActivity extends AppCompatActivity
 {
 	public static final boolean SHOW_FPS = true;
-
+	public SplashScene splashScene;
+	public MainScene mainScene;
 
 
     @Override
@@ -26,7 +27,8 @@ public class GameActivity extends AppCompatActivity
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_main);
 
-		SplashScene startScene = (SplashScene)findViewById(R.id.start_scene);
-		appManager.init(this, startScene);
+		splashScene = (SplashScene)findViewById(R.id.start_scene);
+		mainScene = (MainScene)findViewById(R.id.main_scene);
+		appManager.init(this, splashScene);
     }
 }

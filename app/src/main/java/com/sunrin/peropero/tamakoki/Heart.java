@@ -19,11 +19,13 @@ public class Heart extends IObject
 	private static final float ANIMTIMER_3 = 0.75f;
 
 	private static Bitmap bmpHeart;
+	private static Bitmap bmpBonusHeart;
 
 	private Point heartSize;
 	private Point currentPos;
 	private Point originalPos;
 	private Point distance;
+	private boolean bonus;
 
 	private float timer;
 	private int animState;
@@ -31,11 +33,13 @@ public class Heart extends IObject
 
 
 
-	public Heart(int _x, int _y)
+	public Heart(int _x, int _y, boolean _bonus)
 	{
 		super();
 		if (bmpHeart == null)
 			bmpHeart = BitmapFactory.decodeResource(res, R.drawable.img_heart, bmpOptions);
+		if (bmpBonusHeart == null)
+			bmpBonusHeart = BitmapFactory.decodeResource(res, R.drawable.img_bonusheart, bmpOptions);
 		heartSize = new Point(bmpHeart.getWidth(), bmpHeart.getHeight());
 		originalPos = new Point(_x, _y);
 		currentPos = new Point(_x, _y);
@@ -43,6 +47,7 @@ public class Heart extends IObject
 		timer = 0.0f;
 		animState = 0;
 		scale = 1.0f;
+		bonus = _bonus;
 	}
 
 	@Override
@@ -64,7 +69,10 @@ public class Heart extends IObject
 		int halfSizeY = (int)(heartSize.y * scale / 2.0f);
 		Rect rec = new Rect(s.getX(currentPos.x - halfSizeX), s.getY(currentPos.y - halfSizeY),
 				s.getX(currentPos.x + halfSizeX), s.getY(currentPos.y + halfSizeY));
-		_canvas.drawBitmap(bmpHeart, null, rec, null);
+		if (bonus)
+			_canvas.drawBitmap(bmpBonusHeart, null, rec, null);
+		else
+			_canvas.drawBitmap(bmpHeart, null, rec, null);
 	}
 
 	private void animation()

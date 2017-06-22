@@ -13,7 +13,7 @@ import android.graphics.Rect;
 public class Tama extends IObject
 {
 	private static final int TAMA_X = 720 / 2;
-	private static final int TAMA_Y = 1280 - 300;
+	private static final int TAMA_Y = 1280 - 210;
 
 	private Bitmap bmpTama;
 	private Point tamaSize;

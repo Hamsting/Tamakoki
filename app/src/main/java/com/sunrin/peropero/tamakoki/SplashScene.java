@@ -34,10 +34,6 @@ public class SplashScene extends IScene
 	public SplashScene(Context r, AttributeSet a)
 	{
 		super(r, a);
-
-		AppManager am = AppManager.instance;
-		am.context = r;
-		am.attributeSet = a;
 	}
 
 	@Override
@@ -122,11 +118,7 @@ public class SplashScene extends IScene
 		else if (animState == 5)
 		{
 			++animState;
-			AppManager a = AppManager.instance;
-
-			MainScene ms = new MainScene(a.context, a.attributeSet);
-			Log.e("SpalshsCene", ms.toString());
-			SceneManager.instance.changeScene(ms);
+			SceneManager.instance.loadMainScene();
 		}
 	}
 

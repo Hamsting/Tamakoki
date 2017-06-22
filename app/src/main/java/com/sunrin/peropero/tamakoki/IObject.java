@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class IObject
 {
-	public Matrix mat;
+	public boolean remove;
 	public ArrayList<IObject> node;
 	public IObject parent = null;
 	protected Resources res;
@@ -22,8 +22,7 @@ public class IObject
 
 	public IObject()
 	{
-		mat = new Matrix();
-
+		remove = false;
 		node = new ArrayList<>();
 		res = AppManager.instance.res;
 		bmpOptions = AppManager.instance.bmpOptions;
@@ -60,5 +59,15 @@ public class IObject
 		IObject n = node.remove(_index);
 		if (n != null)
 			n.parent = null;
+	}
+
+	public void setRemove()
+	{
+		remove = true;
+	}
+
+	public void setRemove(boolean _remove)
+	{
+		remove = _remove;
 	}
 }
