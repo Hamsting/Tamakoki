@@ -1,7 +1,6 @@
 package com.sunrin.peropero.tamakoki;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -9,10 +8,10 @@ import android.graphics.BitmapFactory;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
-import android.view.View;
 
 /**
  * Created by Hamsting on 2017-06-09.
+ * 어플리케이션의 시작과 쓰레드를 관리.
  */
 
 public class AppManager

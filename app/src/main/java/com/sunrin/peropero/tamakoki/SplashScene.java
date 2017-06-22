@@ -7,11 +7,12 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 
 /**
  * Created by Hamsting on 2017-06-20.
+ * 어플리케이션 시작 시 맨 처음 뜨게되는 씬이다.
+ * 로고 출력을 담당한다.
  */
 
 public class SplashScene extends IScene

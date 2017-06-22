@@ -2,6 +2,7 @@ package com.sunrin.peropero.tamakoki;
 
 /**
  * Created by Hamsting on 2017-06-05.
+ * 실제 화면과 게임 씬의 화면의 비율을 계산해주는 클래스이다.
  */
 
 public class ScreenConfig

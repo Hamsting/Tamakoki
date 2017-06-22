@@ -1,6 +1,5 @@
 package com.sunrin.peropero.tamakoki;
 
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -12,6 +11,7 @@ import android.graphics.Typeface;
 
 /**
  * Created by Hamsting on 2017-06-12.
+ * 타마의 관심도와 레벨, 포인트를 관리하고 관심도를 렌더링함.
  */
 
 public class AttentionBar extends IObject
@@ -20,6 +20,8 @@ public class AttentionBar extends IObject
 	private static final int BARBG_Y = 20;
 	private static final int LV_TEXTSIZE = 45;
 	private static final int POINT_TEXTSIZE = 45;
+	private static final int LEVELUP_BONUSPOINT = 4;
+	private static final float MAXUP_PREFIX = 60.0f;
 
 	public int level;
 	public int point;
@@ -89,9 +91,9 @@ public class AttentionBar extends IObject
 		paint.setTextSize(POINT_TEXTSIZE);
 		paint.setTextAlign(Paint.Align.RIGHT);
 		String pointStr = Integer.toString(point);
-		_canvas.drawText("Point : ", s.getX(BARBG_X + barSize.x - (int)(POINT_TEXTSIZE * 0.6f * pointStr.length())), s.getY(BARBG_Y + POINT_TEXTSIZE * 2), paint);
+		_canvas.drawText("Point : ", s.getX(BARBG_X + bgSize.x - (int)(POINT_TEXTSIZE * 0.6f * pointStr.length())), s.getY(BARBG_Y + POINT_TEXTSIZE * 2), paint);
 		paint.setColor(Color.rgb(22, 165, 226));
-		_canvas.drawText(pointStr, s.getX(BARBG_X + barSize.x), s.getY(BARBG_Y + POINT_TEXTSIZE * 2), paint);
+		_canvas.drawText(pointStr, s.getX(BARBG_X + bgSize.x), s.getY(BARBG_Y + POINT_TEXTSIZE * 2), paint);
 		paint.setTextAlign(Paint.Align.LEFT);
 		paint.setTypeface(Typeface.DEFAULT);
 	}
@@ -99,12 +101,13 @@ public class AttentionBar extends IObject
 	public boolean addAttention(int _add)
 	{
 		currentAttention += _add;
-		if (currentAttention >= maxAttention)
+		while (currentAttention >= maxAttention)
 		{
 			currentAttention -= maxAttention;
-			maxAttention  = (int)(maxAttention * 1.1f);
 			++level;
-			point += 4;
+			float maxUp = clamp(1.175f - 0.175f * ((float)level / MAXUP_PREFIX), 1.0f, 1.175f);
+			maxAttention  = (int)(maxAttention * maxUp);
+			point += LEVELUP_BONUSPOINT;
 		}
 
 		float rand = (float)Math.random();
@@ -114,5 +117,14 @@ public class AttentionBar extends IObject
 			return true;
 		}
 		return false;
+	}
+
+	private float clamp(float _n, float _min, float _max)
+	{
+		if (_n < _min)
+			return _min;
+		else if (_n > _max)
+			return _max;
+		return _n;
 	}
 }

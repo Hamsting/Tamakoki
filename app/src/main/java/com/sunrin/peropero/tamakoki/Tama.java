@@ -8,6 +8,7 @@ import android.graphics.Rect;
 
 /**
  * Created by Hamsting on 2017-06-09.
+ * 인게임의 캐릭터 타마를 관리하고 렌더링해준다.
  */
 
 public class Tama extends IObject

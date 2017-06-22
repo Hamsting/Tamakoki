@@ -5,23 +5,25 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.TouchDelegate;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
  * Created by Hamsting on 2017-06-09.
+ * 게임의 진행을 담당하는 메인 씬이다.
+ * 인게임의 모든 상태를 관리한다.
  */
 
 public class MainScene extends IScene
 {
 	private static final int KAWAII_X = 20;
 	private static final int KAWAII_Y = 20;
+	private static final int BTNSKILL_X = 720 - 50;
+	private static final int BTNSKILL_Y = 150;
 
 	public int attantionDamage;
 	public float bonusPercent;
@@ -33,6 +35,7 @@ public class MainScene extends IScene
 	private Bitmap bmpKawaii;
 	private Point kawaiiSize;
 	private ArrayList<Heart> hearts;
+	private TamaButton btnGoSkill;
 
 
 
@@ -59,6 +62,16 @@ public class MainScene extends IScene
 		attantionDamage = 10;
 		bonusPercent = 0.02f;
 		bonusPoint = 2;
+
+		btnGoSkill = new TamaButton(R.drawable.img_goskillbtn, new Point(BTNSKILL_X, BTNSKILL_Y), new PointF(1.0f, 0.0f));
+		TamaButton.Callback cb = new TamaButton.Callback() {
+			@Override
+			public void callbackMethod() {
+				abar.addAttention(1000);
+			}
+		};
+		btnGoSkill.setCallback(cb);
+		btnGoSkill.setPressBitmap(R.drawable.img_goskillbtn_press);
 
 		int[] data = AppManager.instance.loadData();
 		abar.level = data[0];
@@ -90,6 +103,8 @@ public class MainScene extends IScene
 
 		abar.draw(canvas);
 
+		btnGoSkill.draw(canvas);
+
 		Iterator<Heart> iter = hearts.iterator();
 		while (iter.hasNext())
 		{
@@ -107,11 +122,11 @@ public class MainScene extends IScene
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
+		ScreenConfig s = screenConfig;
+		Point pos = new Point(s.screenToVirtualX((int)event.getX()),
+				s.screenToVirtualY((int)event.getY()));
 		if (event.getAction() == MotionEvent.ACTION_DOWN)
 		{
-			ScreenConfig s = screenConfig;
-			Point pos = new Point(s.screenToVirtualX((int)event.getX()),
-								  s.screenToVirtualY((int)event.getY()));
 			Rect area = new Rect(s.getX(100), s.getY(1280 - 760),
 					s.getX(720 - 100), s.getY(1280 - 130));
 			if (area.contains(pos.x, pos.y))
@@ -119,6 +134,15 @@ public class MainScene extends IScene
 				boolean bonus = abar.addAttention(attantionDamage);
 				createRandomHeart(bonus);
 			}
+			else if (btnGoSkill.hitTest(pos))
+				btnGoSkill.OnPress();
+		}
+		else if (event.getAction() == MotionEvent.ACTION_UP)
+		{
+			if (btnGoSkill.hitTest(pos))
+				btnGoSkill.OnRelease();
+			else
+				btnGoSkill.setStateNone();
 		}
 		return super.onTouchEvent(event);
 	}
@@ -136,7 +160,6 @@ public class MainScene extends IScene
 	{
 		hearts.remove(_h);
 		_h.setRemove();
-		_h = null;
 	}
 
 	public void saveData()

@@ -9,6 +9,7 @@ import android.view.SurfaceHolder;
 
 /**
  * Created by Hamsting on 2017-06-05.
+ * 게임의 루프를 담당해주는 쓰레드이다.
  */
 
 public class MainThread extends Thread

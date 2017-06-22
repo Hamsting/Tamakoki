@@ -5,6 +5,7 @@ import android.view.View;
 
 /**
  * Created by Hamsting on 2017-06-09.
+ * 게임 씬들의 시작, 이동 등을 관리한다.
  */
 
 public class SceneManager

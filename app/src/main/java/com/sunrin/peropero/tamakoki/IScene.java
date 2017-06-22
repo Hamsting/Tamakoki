@@ -10,12 +10,13 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
  * Created by Hamsting on 2017-06-09.
+ * SurfaceView를 재정의하여 만든 씬의 기본적인 형태.
+ * 이 클래스를 상속한 클래스에서 생성자와 tick()과 draw() 등을 재정의해서 사용한다.
  */
 
 public class IScene extends SurfaceView implements SurfaceHolder.Callback

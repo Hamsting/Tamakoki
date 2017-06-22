@@ -7,6 +7,7 @@ import android.view.WindowManager;
 
 /**
  * Created by Hamsting on 2017-06-09.
+ * SurfaceView를 그리기 위한 기본 액티비티.
  */
 
 public class GameActivity extends AppCompatActivity

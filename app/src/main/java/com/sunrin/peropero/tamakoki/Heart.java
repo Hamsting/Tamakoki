@@ -8,6 +8,7 @@ import android.graphics.Rect;
 
 /**
  * Created by Hamsting on 2017-06-19.
+ * 관심도를 줬을 때의 효과이며, 하트의 애니메이션과 렌더링을 관리한다.
  */
 
 public class Heart extends IObject
