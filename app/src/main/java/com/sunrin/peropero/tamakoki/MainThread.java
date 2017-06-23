@@ -39,11 +39,6 @@ public class MainThread extends Thread
 		elapsedTime = 0.0f;
 	}
 
-	public SurfaceHolder getSurfaceHolder()
-	{
-		return surfaceHolder;
-	}
-
 	public void setRunning(boolean _running)
 	{
 		running = _running;
@@ -101,6 +96,7 @@ public class MainThread extends Thread
 		catch (Exception e)
 		{
 			Log.e("MainThread_1", e.toString());
+			e.printStackTrace();
 		}
 	}
 

@@ -18,6 +18,7 @@ public class AttentionBar extends IObject
 {
 	private static final int BARBG_X = 120;
 	private static final int BARBG_Y = 20;
+	private static final int TEXT_MARGIN = 5;
 	private static final int LV_TEXTSIZE = 45;
 	private static final int POINT_TEXTSIZE = 45;
 	private static final int LEVELUP_BONUSPOINT = 4;
@@ -83,17 +84,18 @@ public class AttentionBar extends IObject
 		paint.setTypeface(fontNXFG);
 		paint.setColor(Color.rgb(238, 252, 83));
 		paint.setTextSize(LV_TEXTSIZE);
-		_canvas.drawText("Lv. ", s.getX(BARBG_X), s.getY(BARBG_Y + LV_TEXTSIZE * 2), paint);
+		_canvas.drawText("Lv. ", s.getX(BARBG_X), s.getY(BARBG_Y + bgSize.y + LV_TEXTSIZE + TEXT_MARGIN), paint);
 		paint.setColor(Color.rgb(242, 297, 16));
-		_canvas.drawText(Integer.toString(level), s.getX(BARBG_X + (int)(LV_TEXTSIZE * 1.8f)), s.getY(BARBG_Y + LV_TEXTSIZE * 2), paint);
+		_canvas.drawText(Integer.toString(level), s.getX(BARBG_X + (int)(LV_TEXTSIZE * 1.8f)), s.getY(BARBG_Y + bgSize.y + LV_TEXTSIZE + TEXT_MARGIN), paint);
 
 		paint.setColor(Color.rgb(16, 215, 242));
 		paint.setTextSize(POINT_TEXTSIZE);
 		paint.setTextAlign(Paint.Align.RIGHT);
 		String pointStr = Integer.toString(point);
-		_canvas.drawText("Point : ", s.getX(BARBG_X + bgSize.x - (int)(POINT_TEXTSIZE * 0.6f * pointStr.length())), s.getY(BARBG_Y + POINT_TEXTSIZE * 2), paint);
+		_canvas.drawText("Point : ", s.getX(BARBG_X + bgSize.x - (int)(POINT_TEXTSIZE * 0.6f * pointStr.length())),
+									 s.getY(BARBG_Y + bgSize.y + POINT_TEXTSIZE + TEXT_MARGIN), paint);
 		paint.setColor(Color.rgb(22, 165, 226));
-		_canvas.drawText(pointStr, s.getX(BARBG_X + bgSize.x), s.getY(BARBG_Y + POINT_TEXTSIZE * 2), paint);
+		_canvas.drawText(pointStr, s.getX(BARBG_X + bgSize.x), s.getY(BARBG_Y + bgSize.y + POINT_TEXTSIZE + TEXT_MARGIN), paint);
 		paint.setTextAlign(Paint.Align.LEFT);
 		paint.setTypeface(Typeface.DEFAULT);
 	}
@@ -105,9 +107,11 @@ public class AttentionBar extends IObject
 		{
 			currentAttention -= maxAttention;
 			++level;
-			float maxUp = clamp(1.175f - 0.175f * ((float)level / MAXUP_PREFIX), 1.0f, 1.175f);
+			float maxUp = clamp(1.225f - 0.225f * ((float)level / MAXUP_PREFIX), 1.0f, 1.225f);
 			maxAttention  = (int)(maxAttention * maxUp);
 			point += LEVELUP_BONUSPOINT;
+			if (level == Tama.UPGRADE_LEVEL[mainScene.tama.grade])
+				mainScene.tama.upgradeTama();
 		}
 
 		float rand = (float)Math.random();

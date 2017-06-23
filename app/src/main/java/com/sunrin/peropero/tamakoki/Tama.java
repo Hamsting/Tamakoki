@@ -13,10 +13,16 @@ import android.graphics.Rect;
 
 public class Tama extends IObject
 {
+	public static final int[] UPGRADE_LEVEL = {
+			10, 30, 60, 100
+	};
+
 	private static final int TAMA_X = 720 / 2;
 	private static final int TAMA_Y = 1280 - 210;
 
-	private Bitmap bmpTama;
+	public int grade;
+
+	private Bitmap[] bmpTama;
 	private Point tamaSize;
 
 
@@ -24,8 +30,13 @@ public class Tama extends IObject
 	public Tama()
 	{
 		super();
-		bmpTama = BitmapFactory.decodeResource(res, R.drawable.img_tama, bmpOptions);
-		tamaSize = new Point(bmpTama.getWidth(), bmpTama.getHeight());
+		grade = 0;
+		bmpTama = new Bitmap[4];
+		bmpTama[0] = BitmapFactory.decodeResource(res, R.drawable.img_tama_0, bmpOptions);
+		bmpTama[1] = BitmapFactory.decodeResource(res, R.drawable.img_tama_1, bmpOptions);
+		bmpTama[2] = BitmapFactory.decodeResource(res, R.drawable.img_tama_2, bmpOptions);
+		bmpTama[3] = BitmapFactory.decodeResource(res, R.drawable.img_tama_3, bmpOptions);
+		tamaSize = new Point(bmpTama[0].getWidth(), bmpTama[0].getHeight());
 	}
 
 	@Override
@@ -42,6 +53,18 @@ public class Tama extends IObject
 
 		Rect rec = new Rect(s.getX(TAMA_X - tamaSize.x / 2), s.getY(TAMA_Y - tamaSize.y),
 							s.getX(TAMA_X + tamaSize.x / 2), s.getY(TAMA_Y));
-		_canvas.drawBitmap(bmpTama, null, rec, null);
+		_canvas.drawBitmap(bmpTama[grade], null, rec, null);
+	}
+
+	public void upgradeTama()
+	{
+		++grade;
+		tamaSize = new Point(bmpTama[grade].getWidth(), bmpTama[grade].getHeight());
+	}
+
+	public void upgradeTama(int _grade)
+	{
+		grade = _grade;
+		tamaSize = new Point(bmpTama[grade].getWidth(), bmpTama[grade].getHeight());
 	}
 }

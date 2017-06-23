@@ -95,12 +95,12 @@ public class TamaButton extends IObject
 		state = STATE_NONE;
 	}
 
-	public void OnPress()
+	public void onPress()
 	{
 		state = STATE_PRESS;
 	}
 
-	public void OnRelease()
+	public void onRelease()
 	{
 		if (state != STATE_PRESS)
 			return;

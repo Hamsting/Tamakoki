@@ -23,14 +23,13 @@ public class IScene extends SurfaceView implements SurfaceHolder.Callback
 {
 	public ArrayList<IObject> node;
 
-
-
 	protected Resources res;
 	protected MainThread mainThread;
 	protected Context mainContext;
 	protected ScreenConfig screenConfig;
 	protected boolean enableDraw = true;
 	protected Paint paint;
+	protected boolean initialized;
 
 
 
@@ -44,6 +43,7 @@ public class IScene extends SurfaceView implements SurfaceHolder.Callback
 		setFocusable(true);
 		mainContext = r;
 		res = getResources();
+		initialized = false;
 		Log.e("IScene", "IScene : " + this.getClass().toString());
 	}
 
@@ -54,10 +54,14 @@ public class IScene extends SurfaceView implements SurfaceHolder.Callback
 		screenConfig.setSize(720, 1280);
 		paint = new Paint();
 		node = new ArrayList<>();
+		initialized = true;
 	}
 
 	public void tick(float _eTime)
 	{
+		if (!initialized)
+			return;
+
 		Iterator<IObject> iter = node.iterator();
 		while (iter.hasNext())
 		{
@@ -75,6 +79,9 @@ public class IScene extends SurfaceView implements SurfaceHolder.Callback
 	@Override
 	protected void onDraw(Canvas canvas)
 	{
+		if (!initialized)
+			return;
+
 		float eTime = mainThread.elapsedTime;
 		tick(eTime);
 
@@ -112,6 +119,8 @@ public class IScene extends SurfaceView implements SurfaceHolder.Callback
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
+		if (!initialized)
+			return false;
 		return true;
 	}
 

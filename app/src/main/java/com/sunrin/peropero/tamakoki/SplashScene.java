@@ -41,7 +41,7 @@ public class SplashScene extends IScene
 	public void init()
 	{
 		super.init();
-
+		
 		BitmapFactory.Options ops = AppManager.instance.bmpOptions;
 		bmpLogo = BitmapFactory.decodeResource(res, R.drawable.img_logo, ops);
 		logoSize = new Point(bmpLogo.getWidth(), bmpLogo.getHeight());

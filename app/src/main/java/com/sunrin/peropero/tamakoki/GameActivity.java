@@ -15,6 +15,7 @@ public class GameActivity extends AppCompatActivity
 	public static final boolean SHOW_FPS = true;
 	public SplashScene splashScene;
 	public MainScene mainScene;
+	public SkillScene skillScene;
 
 
     @Override
@@ -30,6 +31,7 @@ public class GameActivity extends AppCompatActivity
 
 		splashScene = (SplashScene)findViewById(R.id.start_scene);
 		mainScene = (MainScene)findViewById(R.id.main_scene);
+		skillScene = (SkillScene)findViewById(R.id.skill_scene);
 		appManager.init(this, splashScene);
     }
 }

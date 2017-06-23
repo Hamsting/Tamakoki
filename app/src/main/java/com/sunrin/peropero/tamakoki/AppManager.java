@@ -22,8 +22,6 @@ public class AppManager
 	public GameActivity gameActivity;
 	public BitmapFactory.Options bmpOptions;
 	public Resources res;
-	public Context context;
-	public AttributeSet attributeSet;
 
 
 
@@ -44,6 +42,8 @@ public class AppManager
 		bmpOptions.inPreferredConfig = Bitmap.Config.RGB_565;
 
 		mainThread = new MainThread(_startScene.getHolder(), _startScene);
+
+		GlobalData globalData = new GlobalData();
 
 		SceneManager sceneManager = new SceneManager();
 		sceneManager.init();
@@ -106,30 +106,5 @@ public class AppManager
 			}
 		}
 		AppManager.instance.gameActivity.finish();
-	}
-
-
-	public void saveData(int _level, int _point, int _cur, int _max)
-	{
-		SharedPreferences sharedPreference =
-				gameActivity.getSharedPreferences("SavedData", Context.MODE_MULTI_PROCESS | Context.MODE_WORLD_READABLE);
-		SharedPreferences.Editor editor = sharedPreference.edit();
-		editor.putInt("Level", _level);
-		editor.putInt("Point", _point);
-		editor.putInt("Current", _cur);
-		editor.putInt("Max", _max);
-		editor.commit();
-	}
-
-	public int[] loadData()
-	{
-		int[] data = new int[4];
-		SharedPreferences pref
-				= gameActivity.getSharedPreferences("SavedData", Context.MODE_MULTI_PROCESS | Context.MODE_WORLD_READABLE);
-		data[0] = pref.getInt("Level", 1);
-		data[1] = pref.getInt("Point", 0);
-		data[2] = pref.getInt("Current", 0);
-		data[3] = pref.getInt("Max", 50);
-		return data;
 	}
 }

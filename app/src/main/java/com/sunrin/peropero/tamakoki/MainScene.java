@@ -15,7 +15,7 @@ import java.util.Iterator;
 /**
  * Created by Hamsting on 2017-06-09.
  * 게임의 진행을 담당하는 메인 씬이다.
- * 인게임의 모든 상태를 관리한다.
+ * 인게임의 관리, 렌더링을 한다.
  */
 
 public class MainScene extends IScene
@@ -28,14 +28,16 @@ public class MainScene extends IScene
 	public int attantionDamage;
 	public float bonusPercent;
 	public int bonusPoint;
+	public Tama tama;
 
-	private Tama tama;
 	private AttentionBar abar;
 	private Bitmap bmpBg;
 	private Bitmap bmpKawaii;
 	private Point kawaiiSize;
 	private ArrayList<Heart> hearts;
 	private TamaButton btnGoSkill;
+	private float bonusAttentionTimer;
+	private float bonusPointTimer;
 
 
 
@@ -59,31 +61,56 @@ public class MainScene extends IScene
 		bmpKawaii = BitmapFactory.decodeResource(res, R.drawable.img_kawaii, ops);
 		kawaiiSize = new Point(bmpKawaii.getWidth(), bmpKawaii.getHeight());
 
-		attantionDamage = 10;
-		bonusPercent = 0.02f;
-		bonusPoint = 2;
-
 		btnGoSkill = new TamaButton(R.drawable.img_goskillbtn, new Point(BTNSKILL_X, BTNSKILL_Y), new PointF(1.0f, 0.0f));
 		TamaButton.Callback cb = new TamaButton.Callback() {
 			@Override
 			public void callbackMethod() {
-				abar.addAttention(1000);
+				SceneManager.instance.loadSkillScene();
 			}
 		};
 		btnGoSkill.setCallback(cb);
 		btnGoSkill.setPressBitmap(R.drawable.img_goskillbtn_press);
+		addNode(btnGoSkill);
 
-		int[] data = AppManager.instance.loadData();
-		abar.level = data[0];
-		abar.point = data[1];
-		abar.currentAttention = data[2];
-		abar.maxAttention = data[3];
+		GlobalData g = GlobalData.instance;
+		g.loadData();
+		abar.level = g.level;
+		abar.point = g.point;
+		abar.currentAttention = g.cur;
+		abar.maxAttention = g.max;
+		tama.upgradeTama(g.grade);
+
+		attantionDamage = 10 + g.calculateSkillPower(2, g.skill[2]);
+		bonusPercent = 0.02f + (float)g.calculateSkillPower(3, g.skill[3]) * 0.01f;
+		bonusPoint = 2;
+		bonusAttentionTimer = g.aTimer;
+		bonusPointTimer = g.bTimer;
 	}
 
 	@Override
 	public void tick(float _eTime)
 	{
 		super.tick(_eTime);
+		GlobalData g = GlobalData.instance;
+
+		if (g.skill[0] > 0)
+		{
+			bonusAttentionTimer += _eTime;
+			if (bonusAttentionTimer >= 5.0f) {
+				abar.addAttention(g.calculateSkillPower(0, g.skill[0]));
+				createRandomHeart(false);
+				bonusAttentionTimer -= 5.0f;
+			}
+		}
+		if (g.skill[1] > 0)
+		{
+			bonusPointTimer += _eTime;
+			if (bonusPointTimer >= 20.0f) {
+				abar.point += g.calculateSkillPower(1, g.skill[1]);
+				createRandomHeart(true);
+				bonusPointTimer -= 20.0f;
+			}
+		}
 	}
 
 	@Override
@@ -122,6 +149,9 @@ public class MainScene extends IScene
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
+		if (!super.onTouchEvent(event))
+			return false;
+
 		ScreenConfig s = screenConfig;
 		Point pos = new Point(s.screenToVirtualX((int)event.getX()),
 				s.screenToVirtualY((int)event.getY()));
@@ -135,16 +165,16 @@ public class MainScene extends IScene
 				createRandomHeart(bonus);
 			}
 			else if (btnGoSkill.hitTest(pos))
-				btnGoSkill.OnPress();
+				btnGoSkill.onPress();
 		}
 		else if (event.getAction() == MotionEvent.ACTION_UP)
 		{
 			if (btnGoSkill.hitTest(pos))
-				btnGoSkill.OnRelease();
+				btnGoSkill.onRelease();
 			else
 				btnGoSkill.setStateNone();
 		}
-		return super.onTouchEvent(event);
+		return true;
 	}
 
 	private void createRandomHeart(boolean _bonus)
@@ -164,6 +194,14 @@ public class MainScene extends IScene
 
 	public void saveData()
 	{
-		AppManager.instance.saveData(abar.level, abar.point, abar.currentAttention, abar.maxAttention);
+		GlobalData g = GlobalData.instance;
+		g.level = abar.level;
+		g.point = abar.point;
+		g.grade = tama.grade;
+		g.cur = abar.currentAttention;
+		g.max = abar.maxAttention;
+		g.aTimer = bonusAttentionTimer;
+		g.bTimer = bonusPointTimer;
+		g.saveData();
 	}
 }

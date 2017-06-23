@@ -13,8 +13,8 @@ import android.graphics.Rect;
 
 public class Heart extends IObject
 {
-	private static final int DEST_X = 70;
-	private static final int DEST_Y = 45;
+	private static final int DEST_X = 20 + 77 / 2;
+	private static final int DEST_Y = 20 + 103 / 2;
 	private static final float ANIMTIMER_1 = 0.2f;
 	private static final float ANIMTIMER_2 = 0.25f;
 	private static final float ANIMTIMER_3 = 0.75f;
