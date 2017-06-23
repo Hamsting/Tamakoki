@@ -90,6 +90,8 @@ public class GlobalData
 	{
 		if (_lv == 0)
 			return 0;
+		else if (_lv > SkillScene.MAX_SKILL_LEVEL[_i] && SkillScene.MAX_SKILL_LEVEL[_i] > 0)
+			return -1;
 
 		switch (_i)
 		{

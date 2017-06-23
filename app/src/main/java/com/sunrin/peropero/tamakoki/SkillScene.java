@@ -24,6 +24,9 @@ import android.widget.Toast;
 public class SkillScene extends IScene
 {
 	public static final int MAX_SKILL_NUM = 4;
+	public static final int[] MAX_SKILL_LEVEL = {
+		0, 0, 0, 98
+	};
 
 	private static final int BTNMAIN_X = 720 / 2;
 	private static final int BTNMAIN_Y = 1280 - 80;
@@ -111,9 +114,13 @@ public class SkillScene extends IScene
 		String desc;
 		for (int i = 0; i < 4; ++i)
 		{
+			int curPower = g.calculateSkillPower(i, g.skill[i]);
+			int nextPower = g.calculateSkillPower(i, g.skill[i] + 1);
 			canvas.drawBitmap(bmpSkill[i], null, skillRect[i], null);
-			desc = SKILLPOSTDESC[i] + Integer.toString(g.calculateSkillPower(i, g.skill[i])) +
-					" -> 강화 후 +" + Integer.toString(g.calculateSkillPower(i, g.skill[i] + 1));
+			desc = SKILLPOSTDESC[i] + Integer.toString(curPower);
+
+			if (nextPower >= 0)
+				desc += " -> 강화 후 +" + Integer.toString(nextPower);
 			canvas.drawText(desc, s.getX(SKILLDESC_X), s.getY(SKILLDESC_Y[i]), paint);
 		}
 
@@ -160,11 +167,28 @@ public class SkillScene extends IScene
 
 	private void showDialog(final int _i)
 	{
+		GlobalData g = GlobalData.instance;
 		String type = "강화";
-		if (GlobalData.instance.skill[_i] == 0)
+		if (g.skill[_i] == 0)
 			type = "구입";
 
-		if (GlobalData.instance.point < SKILLCOST[_i])
+		if (g.calculateSkillPower(_i, g.skill[_i] + 1) == -1)
+		{
+			AlertDialog.Builder alt = new AlertDialog.Builder(AppManager.instance.gameActivity);
+			alt.setMessage("강화도가 최대치입니다!").setCancelable(true);
+			alt.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id)
+				{
+					dialog.cancel();
+				}
+			});
+			AlertDialog alert = alt.create();
+			alert.setTitle("스킬 강화");
+			alert.show();
+			return;
+		}
+
+		if (g.point < SKILLCOST[_i])
 		{
 			AlertDialog.Builder alt = new AlertDialog.Builder(AppManager.instance.gameActivity);
 			alt.setMessage("포인트가 부족합니다.").setCancelable(true);

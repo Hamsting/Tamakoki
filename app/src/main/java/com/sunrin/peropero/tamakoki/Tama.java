@@ -14,7 +14,7 @@ import android.graphics.Rect;
 public class Tama extends IObject
 {
 	public static final int[] UPGRADE_LEVEL = {
-			10, 30, 60, 100
+			10, 30, 60, 99999999
 	};
 
 	private static final int TAMA_X = 720 / 2;
