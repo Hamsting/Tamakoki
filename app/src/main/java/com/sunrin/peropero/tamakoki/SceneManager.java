@@ -59,22 +59,25 @@ public class SceneManager
 		if (nextScene == null)
 			return null;
 
+		IScene temp = currentScene;
+		currentScene = nextScene;
+		nextScene = temp;
+		currentScene.init();
+		Log.e("SceneManager", "INIT");
 		a.gameActivity.runOnUiThread(new Runnable(){
 			@Override
 			public void run()
 			{
+				Log.e("SceneManager", "RUN START");
 				currentScene.setVisibility(View.VISIBLE);
 				nextScene.setVisibility(View.INVISIBLE);
 				if (nextScene.getClass() == SplashScene.class)
 					nextScene.setVisibility(View.GONE);
 				nextScene = null;
 				changeCompleted = true;
+				Log.e("SceneManager", "RUN END");
 			}
 		});
-		IScene temp = currentScene;
-		currentScene = nextScene;
-		nextScene = temp;
-		currentScene.init();
 		return currentScene;
 	}
 

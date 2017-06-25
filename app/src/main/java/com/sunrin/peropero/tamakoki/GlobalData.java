@@ -34,7 +34,7 @@ public class GlobalData
 	public void saveData()
 	{
 		SharedPreferences sharedPreference =
-				AppManager.instance.gameActivity.getSharedPreferences("SavedData", Context.MODE_MULTI_PROCESS | Context.MODE_WORLD_READABLE);
+				AppManager.instance.gameActivity.getSharedPreferences("SavedData", Context.MODE_MULTI_PROCESS);
 		SharedPreferences.Editor editor = sharedPreference.edit();
 		editor.putInt("Level", level);
 		editor.putInt("Point", point);
@@ -53,7 +53,7 @@ public class GlobalData
 	public void loadData()
 	{
 		SharedPreferences pref =
-				AppManager.instance.gameActivity.getSharedPreferences("SavedData", Context.MODE_MULTI_PROCESS | Context.MODE_WORLD_READABLE);
+				AppManager.instance.gameActivity.getSharedPreferences("SavedData", Context.MODE_MULTI_PROCESS);
 		level = pref.getInt("Level", 1);
 		point = pref.getInt("Point", 0);
 		grade = pref.getInt("Grade", 0);

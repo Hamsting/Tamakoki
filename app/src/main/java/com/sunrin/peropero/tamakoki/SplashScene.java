@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.AttributeSet;
@@ -65,6 +66,9 @@ public class SplashScene extends IScene
 	{
 		super.onDraw(canvas);
 		ScreenConfig s = screenConfig;
+
+		paint.setColor(Color.rgb(255, 255, 255));
+		canvas.drawRect(new Rect(s.getX(0), s.getY(0), s.getX(720), s.getY(1280)), paint);
 
 		if (logoAlpha > 0)
 		{
